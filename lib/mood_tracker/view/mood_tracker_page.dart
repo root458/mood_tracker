@@ -28,11 +28,14 @@ class MoodTrackerPage extends StatelessWidget {
                 const MoodJournalHeader(),
                 const SizedBox(height: 48),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: Mood.values.map((mood) {
-                    return MoodButton(
-                      mood: mood,
-                      onTap: () => LogMoodBottomSheet.show(context),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: MoodButton(
+                        mood: mood,
+                        onTap: () => LogMoodDialog.show(context),
+                      ),
                     );
                   }).toList(),
                 ),

@@ -4,25 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:mood_tracker/mood_tracker/data/data.dart';
 import 'package:mood_tracker/mood_tracker/view/widgets/mood_button.dart';
 
-class LogMoodBottomSheet extends StatefulWidget {
-  const LogMoodBottomSheet({super.key});
+class LogMoodDialog extends StatefulWidget {
+  const LogMoodDialog({super.key});
 
   static void show(BuildContext context) {
     unawaited(
-      showModalBottomSheet<void>(
+      showDialog<void>(
         context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (context) => const LogMoodBottomSheet(),
+        builder: (context) => const Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.all(24),
+          child: LogMoodDialog(),
+        ),
       ),
     );
   }
 
   @override
-  State<LogMoodBottomSheet> createState() => _LogMoodBottomSheetState();
+  State<LogMoodDialog> createState() => _LogMoodDialogState();
 }
 
-class _LogMoodBottomSheetState extends State<LogMoodBottomSheet> {
+class _LogMoodDialogState extends State<LogMoodDialog> {
   Mood _selectedMood = Mood.happy;
 
   @override
@@ -75,17 +77,20 @@ class _LogMoodBottomSheetState extends State<LogMoodBottomSheet> {
               ),
               const SizedBox(height: 16),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: Mood.values.map((mood) {
-                  return MoodButton(
-                    mood: mood,
-                    isSelected: _selectedMood == mood,
-                    showLabel: _selectedMood == mood,
-                    onTap: () {
-                      setState(() {
-                        _selectedMood = mood;
-                      });
-                    },
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: MoodButton(
+                      mood: mood,
+                      isSelected: _selectedMood == mood,
+                      showLabel: _selectedMood == mood,
+                      onTap: () {
+                        setState(() {
+                          _selectedMood = mood;
+                        });
+                      },
+                    ),
                   );
                 }).toList(),
               ),

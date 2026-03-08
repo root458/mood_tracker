@@ -49,7 +49,7 @@ class MoodTrackerServiceImpl implements MoodTrackerService {
   Future<List<MoodEntry>> getMoodEntries() async {
     final box = Hive.box<dynamic>(_hiveDBKey);
     final data = box.get('mood_entries', defaultValue: <dynamic>[]);
-    return List.castFrom<dynamic, MoodEntry>(data as List);
+    return List<MoodEntry>.from(data as List);
   }
 
   @override

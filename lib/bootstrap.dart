@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mood_tracker/mood_tracker/_index.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -28,6 +29,19 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = const AppBlocObserver();
 
   // Add cross-flavor configuration here
+  final moodTrackerService = MoodTrackerServiceImpl();
+  await moodTrackerService.init();
 
-  runApp(await builder());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<MoodTrackerCubit>(
+          create: (_) => MoodTrackerCubit(
+            moodTrackerService: moodTrackerService,
+          ),
+        ),
+      ],
+      child: await builder(),
+    ),
+  );
 }

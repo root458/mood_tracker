@@ -7,12 +7,14 @@ import 'package:mood_tracker/mood_tracker/data/data.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(MoodAdapter());
     registerAdapter(MoodEntryAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(MoodAdapter());
     registerAdapter(MoodEntryAdapter());
   }
 }

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 
-@GenerateAdapters([AdapterSpec<MoodEntry>()])
+@GenerateAdapters([AdapterSpec<MoodEntry>(), AdapterSpec<Mood>()])
 part 'data.g.dart';
 part 'data.freezed.dart';
 

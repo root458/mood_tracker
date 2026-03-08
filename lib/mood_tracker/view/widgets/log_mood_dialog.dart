@@ -7,16 +7,18 @@ import 'package:mood_tracker/mood_tracker/data/data.dart';
 import 'package:mood_tracker/mood_tracker/view/widgets/mood_button.dart';
 
 class LogMoodDialog extends StatefulWidget {
-  const LogMoodDialog({super.key});
+  const LogMoodDialog({super.key, this.initialMood = Mood.happy});
 
-  static void show(BuildContext context) {
+  final Mood initialMood;
+
+  static void show(BuildContext context, {Mood initialMood = Mood.happy}) {
     unawaited(
       showDialog<void>(
         context: context,
-        builder: (context) => const Dialog(
+        builder: (context) => Dialog(
           backgroundColor: Colors.transparent,
-          insetPadding: EdgeInsets.all(24),
-          child: LogMoodDialog(),
+          insetPadding: const EdgeInsets.all(24),
+          child: LogMoodDialog(initialMood: initialMood),
         ),
       ),
     );
@@ -27,8 +29,14 @@ class LogMoodDialog extends StatefulWidget {
 }
 
 class _LogMoodDialogState extends State<LogMoodDialog> {
-  Mood _selectedMood = Mood.happy;
+  late Mood _selectedMood;
   final TextEditingController _noteController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedMood = widget.initialMood;
+  }
 
   @override
   void dispose() {
@@ -95,6 +103,7 @@ class _LogMoodDialogState extends State<LogMoodDialog> {
                       mood: mood,
                       isSelected: _selectedMood == mood,
                       showLabel: _selectedMood == mood,
+                      reserveLabelSpace: true,
                       onTap: () {
                         setState(() {
                           _selectedMood = mood;
@@ -153,7 +162,7 @@ class _LogMoodDialogState extends State<LogMoodDialog> {
                         backgroundColor: Colors.grey.shade100,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       onPressed: () => Navigator.of(context).pop(),
@@ -173,7 +182,7 @@ class _LogMoodDialogState extends State<LogMoodDialog> {
                         gradient: const LinearGradient(
                           colors: [Color(0xFF9C27B0), Color(0xFFE91E63)],
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: TextButton(
                         style: TextButton.styleFrom(

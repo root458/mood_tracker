@@ -8,6 +8,7 @@ class MoodButton extends StatelessWidget {
     required this.onTap,
     this.isSelected = false,
     this.showLabel = false,
+    this.reserveLabelSpace = false,
     super.key,
   });
 
@@ -15,6 +16,7 @@ class MoodButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool isSelected;
   final bool showLabel;
+  final bool reserveLabelSpace;
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +51,16 @@ class MoodButton extends StatelessWidget {
                 ),
               ),
             ),
-            if (showLabel) ...[
+            if (showLabel || reserveLabelSpace) ...[
               const SizedBox(height: 8),
-              Text(
-                mood.label,
-                style: const TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w600,
+              Opacity(
+                opacity: showLabel ? 1.0 : 0.0,
+                child: Text(
+                  mood.label,
+                  style: const TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

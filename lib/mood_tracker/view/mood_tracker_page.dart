@@ -49,7 +49,10 @@ class _MoodTrackerPageState extends State<MoodTrackerPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: MoodButton(
                         mood: mood,
-                        onTap: () => LogMoodDialog.show(context),
+                        onTap: () => LogMoodDialog.show(
+                          context,
+                          initialMood: mood,
+                        ),
                       ),
                     );
                   }).toList(),

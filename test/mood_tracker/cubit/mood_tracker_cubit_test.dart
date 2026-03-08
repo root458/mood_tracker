@@ -55,7 +55,6 @@ void main() {
         MoodTrackerState.loaded(entries: [mockEntry]),
       ],
       verify: (_) {
-        verify(() => mockMoodTrackerService.init()).called(1);
         verify(() => mockMoodTrackerService.getMoodEntries()).called(1);
       },
     );

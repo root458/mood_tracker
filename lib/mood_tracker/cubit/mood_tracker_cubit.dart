@@ -14,7 +14,6 @@ class MoodTrackerCubit extends Cubit<MoodTrackerState> {
   final MoodTrackerService _moodTrackerService;
 
   Future<void> init() async {
-    await _moodTrackerService.init();
     await _loadEntries();
   }
 

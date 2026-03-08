@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mood_tracker/mood_tracker/cubit/mood_tracker_cubit.dart';
 import 'package:mood_tracker/mood_tracker/data/data.dart';
 import 'package:mood_tracker/mood_tracker/view/widgets/mood_button.dart';
 
@@ -26,6 +28,13 @@ class LogMoodDialog extends StatefulWidget {
 
 class _LogMoodDialogState extends State<LogMoodDialog> {
   Mood _selectedMood = Mood.happy;
+  final TextEditingController _noteController = TextEditingController();
+
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +124,7 @@ class _LogMoodDialogState extends State<LogMoodDialog> {
               ),
               const SizedBox(height: 16),
               TextField(
+                controller: _noteController,
                 maxLines: 4,
                 decoration: InputDecoration(
                   hintText: "What's on your mind?",
@@ -172,7 +182,19 @@ class _LogMoodDialogState extends State<LogMoodDialog> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () async {
+                          final entry = MoodEntry(
+                            date: DateTime.now(),
+                            mood: _selectedMood,
+                            note: _noteController.text.trim(),
+                          );
+                          await context.read<MoodTrackerCubit>().addMoodEntry(
+                            entry,
+                          );
+
+                          if (!context.mounted) return;
+                          Navigator.of(context).pop();
+                        },
                         child: const Text(
                           'Save Entry',
                           style: TextStyle(

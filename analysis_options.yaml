@@ -4,6 +4,9 @@ include:
 analyzer:
   exclude:
     - lib/l10n/gen/*
+    - lib/generated_plugin_registrant.dart
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
 linter:
   rules:
     public_member_api_docs: false

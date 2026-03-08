@@ -106,6 +106,6 @@ Map<String, dynamic> _$MoodEntryToJson(_MoodEntry instance) =>
 
 const _$MoodEnumMap = {
   Mood.happy: 'happy',
-  Mood.sad: 'sad',
   Mood.neutral: 'neutral',
+  Mood.sad: 'sad',
 };

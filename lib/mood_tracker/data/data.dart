@@ -7,8 +7,8 @@ part 'data.freezed.dart';
 
 enum Mood {
   happy,
-  sad,
   neutral,
+  sad,
 }
 
 @freezed

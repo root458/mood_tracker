@@ -15,7 +15,6 @@ abstract class MoodTrackerService {
 }
 
 class MoodTrackerServiceImpl implements MoodTrackerService {
-
   MoodTrackerServiceImpl();
 
   static const _hiveDBKey = 'mood_tracker';

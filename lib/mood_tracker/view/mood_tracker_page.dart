@@ -1,41 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:mood_tracker/l10n/l10n.dart';
+import 'package:mood_tracker/mood_tracker/_index.dart';
 
 class MoodTrackerPage extends StatelessWidget {
   const MoodTrackerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.counterAppBarTitle)),
-      body: const Center(child: CounterText()),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.add),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFFFFF0F5), // Light pinkish
+              Colors.white,
+              Color(0xFFF0F8FF), // Alice blue
+            ],
           ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.remove),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                const SizedBox(height: 48),
+                const MoodJournalHeader(),
+                const SizedBox(height: 48),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: Mood.values.map((mood) {
+                    return MoodButton(
+                      mood: mood,
+                      onTap: () => LogMoodBottomSheet.show(context),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 48),
+                const EmptyTimelineCard(),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
-  }
-}
-
-class CounterText extends StatelessWidget {
-  const CounterText({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    const count = 10;
-    return Text('$count', style: theme.textTheme.displayLarge);
   }
 }

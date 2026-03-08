@@ -16,11 +16,11 @@ extension MoodUIExtension on Mood {
   Color get color {
     switch (this) {
       case Mood.happy:
-        return const Color(0xFF2EFE8C); // Vibrant Green
+        return const Color(0xFF2EFE8C);
       case Mood.neutral:
-        return const Color(0xFF29B6F6); // Light Blue
+        return const Color(0xFF29B6F6);
       case Mood.sad:
-        return const Color(0xFFAB47BC); // Purple
+        return const Color(0xFFAB47BC);
     }
   }
 

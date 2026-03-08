@@ -22,11 +22,12 @@ class MoodJournalHeader extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         const Text(
-          'Track your emotions, one moment at a time',
+          '''Track your emotions, one moment at a time''',
           style: TextStyle(
             fontSize: 14,
             color: Colors.black54,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     );

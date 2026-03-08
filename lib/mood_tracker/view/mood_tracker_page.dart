@@ -13,9 +13,9 @@ class MoodTrackerPage extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFFFF0F5), // Light pinkish
+              Color(0xFFFFF0F5),
               Colors.white,
-              Color(0xFFF0F8FF), // Alice blue
+              Color(0xFFF0F8FF),
             ],
           ),
         ),
@@ -38,6 +38,14 @@ class MoodTrackerPage extends StatelessWidget {
                       ),
                     );
                   }).toList(),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Tap a mood above to journal',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
                 ),
                 const SizedBox(height: 48),
                 const EmptyTimelineCard(),

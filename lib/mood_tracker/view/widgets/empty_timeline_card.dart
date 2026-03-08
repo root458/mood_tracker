@@ -34,13 +34,6 @@ class EmptyTimelineCard extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Tap a mood above to start your journey',
-            style: TextStyle(
-              color: Colors.black54,
-            ),
-          ),
         ],
       ),
     );

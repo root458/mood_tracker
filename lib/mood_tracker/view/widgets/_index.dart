@@ -1,6 +1,7 @@
 export 'confirmation_dialog.dart';
 export 'empty_timeline_card.dart';
 export 'entry_details_dialog.dart';
+export 'faces/_index.dart';
 export 'log_mood_dialog.dart';
 export 'mood_button.dart';
 export 'mood_extensions.dart';

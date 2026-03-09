@@ -78,10 +78,21 @@ class _MoodTrackerPageState extends State<MoodTrackerPage> {
                             MoodTimeline(entries: entries),
                             const SizedBox(height: 16),
                             TextButton.icon(
-                              onPressed: () {
-                                unawaited(
-                                  context.read<MoodTrackerCubit>().clearAll(),
+                              onPressed: () async {
+                                final confirm = await ConfirmationDialog.show(
+                                  context,
+                                  title: 'Clear All Entries?',
+                                  content:
+                                      'Are you sure you want to delete '
+                                      'all entries? This action cannot be '
+                                      'undone.',
                                 );
+
+                                if (confirm && context.mounted) {
+                                  unawaited(
+                                    context.read<MoodTrackerCubit>().clearAll(),
+                                  );
+                                }
                               },
                               icon: const Icon(
                                 Icons.delete_sweep,

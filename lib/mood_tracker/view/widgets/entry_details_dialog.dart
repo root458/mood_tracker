@@ -82,11 +82,21 @@ class EntryDetailsDialog extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () {
-                  unawaited(
-                    context.read<MoodTrackerCubit>().removeMoodEntry(entry),
+                onPressed: () async {
+                  final confirm = await ConfirmationDialog.show(
+                    context,
+                    title: 'Delete Entry?',
+                    content:
+                        'Are you sure you want to delete this mood '
+                        'entry? This action cannot be undone.',
                   );
-                  Navigator.of(context).pop();
+
+                  if (confirm && context.mounted) {
+                    unawaited(
+                      context.read<MoodTrackerCubit>().removeMoodEntry(entry),
+                    );
+                    Navigator.of(context).pop();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade50,

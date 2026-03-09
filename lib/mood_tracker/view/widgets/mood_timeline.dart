@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mood_tracker/mood_tracker/_index.dart';
 
 class MoodTimeline extends StatelessWidget {
@@ -133,6 +134,25 @@ class _TimeAgoTextState extends State<TimeAgoText> {
     _timer?.cancel();
 
     final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final aDate = DateTime(
+      widget.date.year,
+      widget.date.month,
+      widget.date.day,
+    );
+
+    if (aDate.isBefore(today)) {
+      // Schedule to refresh at exactly next midnight
+      final nextMidnight = today.add(const Duration(days: 1));
+      _timer = Timer(nextMidnight.difference(now), () {
+        if (mounted) {
+          setState(() {});
+          _scheduleNextUpdate();
+        }
+      });
+      return;
+    }
+
     final difference = now.difference(widget.date);
 
     Duration delay;
@@ -163,19 +183,29 @@ class _TimeAgoTextState extends State<TimeAgoText> {
 
 extension DateTimeAgoExtension on DateTime {
   String timeAgo() {
-    final difference = DateTime.now().difference(this);
-    if (difference.inDays > 365) {
-      return '${(difference.inDays / 365).floor()}y ago';
-    } else if (difference.inDays >= 30) {
-      return '${(difference.inDays / 30).floor()}mo ago';
-    } else if (difference.inDays >= 1) {
-      return '${difference.inDays}d ago';
-    } else if (difference.inHours >= 1) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inMinutes >= 1) {
-      return '${difference.inMinutes}m ago';
+    final now = DateTime.now();
+    final difference = now.difference(this);
+    final today = DateTime(now.year, now.month, now.day);
+    final aDate = DateTime(year, month, day);
+
+    if (aDate == today) {
+      if (difference.inHours >= 1) {
+        return '${difference.inHours}h ago';
+      } else if (difference.inMinutes >= 1) {
+        return '${difference.inMinutes}m ago';
+      } else {
+        return 'Just now';
+      }
     } else {
-      return 'Just now';
+      final yesterday = today.subtract(const Duration(days: 1));
+      if (aDate == yesterday) {
+        return 'Yesterday';
+      } else {
+        if (year != now.year) {
+          return DateFormat('MMM d, yyyy').format(aDate);
+        }
+        return DateFormat('MMM d').format(aDate);
+      }
     }
   }
 }

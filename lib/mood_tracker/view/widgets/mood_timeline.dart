@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mood_tracker/mood_tracker/_index.dart';
 
@@ -59,8 +61,8 @@ class TimelineItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 2),
             child: FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(
-                entry.date.timeAgo(),
+              child: TimeAgoText(
+                date: entry.date,
                 style: const TextStyle(
                   fontSize: 12,
                   color: Colors.black54,
@@ -85,6 +87,76 @@ class TimelineItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class TimeAgoText extends StatefulWidget {
+  const TimeAgoText({
+    required this.date,
+    this.style,
+    super.key,
+  });
+
+  final DateTime date;
+  final TextStyle? style;
+
+  @override
+  State<TimeAgoText> createState() => _TimeAgoTextState();
+}
+
+class _TimeAgoTextState extends State<TimeAgoText> {
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scheduleNextUpdate();
+  }
+
+  @override
+  void didUpdateWidget(TimeAgoText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.date != oldWidget.date) {
+      _scheduleNextUpdate();
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _scheduleNextUpdate() {
+    _timer?.cancel();
+
+    final now = DateTime.now();
+    final difference = now.difference(widget.date);
+
+    Duration delay;
+    if (difference.inHours >= 1) {
+      final minutesToNextHour = 60 - (difference.inMinutes % 60);
+      delay = Duration(minutes: minutesToNextHour, seconds: 1);
+    } else {
+      final secondsToNextMinute = 60 - (difference.inSeconds % 60);
+      delay = Duration(seconds: secondsToNextMinute, milliseconds: 100);
+    }
+
+    _timer = Timer(delay, () {
+      if (mounted) {
+        setState(() {});
+        _scheduleNextUpdate();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      widget.date.timeAgo(),
+      style: widget.style,
     );
   }
 }

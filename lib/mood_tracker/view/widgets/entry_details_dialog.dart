@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mood_tracker/mood_tracker/_index.dart';
 
-class EntryDetailsDialog extends StatelessWidget {
+class EntryDetailsDialog extends StatefulWidget {
   const EntryDetailsDialog({
     required this.entry,
     super.key,
@@ -24,6 +25,67 @@ class EntryDetailsDialog extends StatelessWidget {
   }
 
   @override
+  State<EntryDetailsDialog> createState() => _EntryDetailsDialogState();
+}
+
+class _EntryDetailsDialogState extends State<EntryDetailsDialog>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final isHappy = widget.entry.mood == Mood.happy;
+    final isSad = widget.entry.mood == Mood.sad;
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: isHappy
+            ? 600
+            : isSad
+            ? 1200
+            : 800,
+      ),
+    );
+
+    if (isHappy) {
+      // Bouncy animation
+      _animation = TweenSequence<double>([
+        TweenSequenceItem(tween: Tween(begin: 1, end: 1.2), weight: 1),
+        TweenSequenceItem(tween: Tween(begin: 1.2, end: 0.9), weight: 1),
+        TweenSequenceItem(tween: Tween(begin: 0.9, end: 1.1), weight: 1),
+        TweenSequenceItem(tween: Tween(begin: 1.1, end: 1), weight: 1),
+      ]).animate(_controller);
+    } else if (isSad) {
+      // Slow sad sway
+      _controller.duration = const Duration(milliseconds: 2000);
+      _animation = TweenSequence<double>([
+        TweenSequenceItem(tween: Tween(begin: 0, end: -0.1), weight: 1),
+        TweenSequenceItem(tween: Tween(begin: -0.1, end: 0.1), weight: 2),
+        TweenSequenceItem(tween: Tween(begin: 0.1, end: 0), weight: 1),
+      ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    } else {
+      _animation = TweenSequence<double>([
+        TweenSequenceItem(tween: Tween(begin: 0, end: 5), weight: 1),
+        TweenSequenceItem(tween: Tween(begin: 5, end: -5), weight: 2),
+        TweenSequenceItem(tween: Tween(begin: -5, end: 5), weight: 2),
+        TweenSequenceItem(tween: Tween(begin: 5, end: 0), weight: 1),
+      ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    }
+
+    unawaited(_controller.forward());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxWidth: 380),
@@ -39,11 +101,33 @@ class EntryDetailsDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(width: 48), // Balance for back button
-                SizedBox(
-                  width: 48,
-                  height: 48,
-                  child: entry.mood.widget,
+                const SizedBox(width: 48),
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    final mood = widget.entry.mood;
+                    if (mood == Mood.happy) {
+                      return Transform.scale(
+                        scale: _animation.value,
+                        child: child,
+                      );
+                    } else if (mood == Mood.sad) {
+                      return Transform.rotate(
+                        angle: _animation.value * math.pi,
+                        child: child,
+                      );
+                    } else {
+                      return Transform.translate(
+                        offset: Offset(_animation.value, 0),
+                        child: child,
+                      );
+                    }
+                  },
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: widget.entry.mood.widget,
+                  ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
@@ -53,14 +137,14 @@ class EntryDetailsDialog extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              entry.date.timeAgo(),
+              widget.entry.date.timeAgo(),
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            if (entry.note.isNotEmpty) ...[
+            if (widget.entry.note.isNotEmpty) ...[
               const SizedBox(height: 16),
               Container(
                 padding: const EdgeInsets.all(16),
@@ -70,7 +154,7 @@ class EntryDetailsDialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
-                  entry.note,
+                  widget.entry.note,
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black87,
@@ -94,7 +178,9 @@ class EntryDetailsDialog extends StatelessWidget {
 
                   if (confirm && context.mounted) {
                     unawaited(
-                      context.read<MoodTrackerCubit>().removeMoodEntry(entry),
+                      context.read<MoodTrackerCubit>().removeMoodEntry(
+                        widget.entry,
+                      ),
                     );
                     Navigator.of(context).pop();
                   }

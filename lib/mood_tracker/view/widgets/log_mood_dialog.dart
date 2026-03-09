@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mood_tracker/mood_tracker/cubit/mood_tracker_cubit.dart';
-import 'package:mood_tracker/mood_tracker/data/data.dart';
-import 'package:mood_tracker/mood_tracker/view/widgets/mood_button.dart';
+import 'package:mood_tracker/mood_tracker/_index.dart';
 
 class LogMoodDialog extends StatefulWidget {
   const LogMoodDialog({super.key, this.initialMood = Mood.happy});

@@ -34,6 +34,6 @@ class MoodTrackerCubit extends Cubit<MoodTrackerState> {
 
   Future<void> _loadEntries() async {
     final entries = await _moodTrackerService.getMoodEntries();
-    emit(MoodTrackerState.loaded(entries: entries));
+    emit(MoodTrackerState.loaded(entries: entries.reversed.toList()));
   }
 }

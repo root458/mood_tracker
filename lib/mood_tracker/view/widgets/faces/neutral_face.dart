@@ -30,9 +30,9 @@ class NeutralFacePainter extends CustomPainter {
     );
 
     // Eyes
-    final eyeRadius = width * 0.1;
+    final eyeRadius = width * 0.08;
     final eyeYOffset = height * 0.35;
-    final eyeXOffset = width * 0.25;
+    final eyeXOffset = width * 0.2;
 
     canvas
       ..drawCircle(
@@ -47,8 +47,8 @@ class NeutralFacePainter extends CustomPainter {
       );
 
     // Mouth (Straight Line)
-    final mouthYOffset = height * 0.7;
-    final mouthWidth = width * 0.5;
+    final mouthYOffset = height * 0.65;
+    final mouthWidth = width * 0.4;
 
     canvas.drawLine(
       Offset(width / 2 - mouthWidth / 2, mouthYOffset),

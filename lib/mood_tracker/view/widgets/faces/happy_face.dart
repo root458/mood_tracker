@@ -31,9 +31,9 @@ class HappyFacePainter extends CustomPainter {
     );
 
     // Eyes
-    final eyeRadius = width * 0.1;
+    final eyeRadius = width * 0.08;
     final eyeYOffset = height * 0.35;
-    final eyeXOffset = width * 0.25;
+    final eyeXOffset = width * 0.2;
 
     canvas
       ..drawCircle(
@@ -50,8 +50,8 @@ class HappyFacePainter extends CustomPainter {
     // Mouth (Smile Arc)
     final mouthRect = Rect.fromCenter(
       center: Offset(width / 2, height * 0.55),
-      width: width * 0.6,
-      height: height * 0.35,
+      width: width * 0.5,
+      height: height * 0.25,
     );
 
     canvas.drawArc(

@@ -31,9 +31,9 @@ class SadFacePainter extends CustomPainter {
     );
 
     // Eyes
-    final eyeRadius = width * 0.1;
+    final eyeRadius = width * 0.08;
     final eyeYOffset = height * 0.45;
-    final eyeXOffset = width * 0.25;
+    final eyeXOffset = width * 0.2;
 
     canvas
       ..drawCircle(
@@ -65,9 +65,9 @@ class SadFacePainter extends CustomPainter {
 
     // Mouth (Sad Arc)
     final mouthRect = Rect.fromCenter(
-      center: Offset(width / 2, height * 0.85),
-      width: width * 0.5,
-      height: height * 0.3,
+      center: Offset(width / 2, height * 0.75),
+      width: width * 0.4,
+      height: height * 0.2,
     );
 
     canvas.drawArc(

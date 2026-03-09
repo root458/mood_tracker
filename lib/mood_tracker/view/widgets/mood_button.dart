@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mood_tracker/mood_tracker/data/data.dart';
-import 'package:mood_tracker/mood_tracker/view/widgets/mood_extensions.dart';
+import 'package:mood_tracker/mood_tracker/_index.dart';
 
 class MoodButton extends StatelessWidget {
   const MoodButton({
@@ -45,9 +44,10 @@ class MoodButton extends StatelessWidget {
                 ],
               ),
               child: Center(
-                child: Text(
-                  mood.emoji,
-                  style: const TextStyle(fontSize: 32),
+                child: SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: mood.widget,
                 ),
               ),
             ),

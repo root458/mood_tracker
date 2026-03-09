@@ -79,10 +79,10 @@ class TimelineItem extends StatelessWidget {
               color: entry.mood.color.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
-            alignment: Alignment.center,
-            child: Text(
-              entry.mood.emoji,
-              style: const TextStyle(fontSize: 20),
+            child: SizedBox(
+              width: 32,
+              height: 32,
+              child: entry.mood.widget,
             ),
           ),
         ],

@@ -40,9 +40,10 @@ class EntryDetailsDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(width: 48), // Balance for back button
-                Text(
-                  entry.mood.emoji,
-                  style: const TextStyle(fontSize: 48),
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: entry.mood.widget,
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),

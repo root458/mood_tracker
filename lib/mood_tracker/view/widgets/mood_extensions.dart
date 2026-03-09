@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mood_tracker/mood_tracker/data/data.dart';
+import 'package:mood_tracker/mood_tracker/_index.dart';
 
 extension MoodUIExtension on Mood {
-  String get emoji {
+  Widget get widget {
     switch (this) {
       case Mood.happy:
-        return '😊';
+        return const HappyFace();
       case Mood.neutral:
-        return '😐';
+        return const NeutralFace();
       case Mood.sad:
-        return '😔';
+        return const SadFace();
     }
   }
 

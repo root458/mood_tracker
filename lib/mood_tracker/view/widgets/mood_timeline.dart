@@ -26,10 +26,7 @@ class MoodTimeline extends StatelessWidget {
                   children: entries.map((entry) {
                     return SizedBox(
                       width: itemWidth,
-                      child: TimelineItem(
-                        date: entry.date,
-                        mood: entry.mood,
-                      ),
+                      child: TimelineItem(entry: entry),
                     );
                   }).toList(),
                 ),
@@ -44,49 +41,50 @@ class MoodTimeline extends StatelessWidget {
 
 class TimelineItem extends StatelessWidget {
   const TimelineItem({
-    required this.date,
-    required this.mood,
+    required this.entry,
     super.key,
   });
 
-  final DateTime date;
-  final Mood mood;
+  final MoodEntry entry;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              date.timeAgo(),
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.black54,
-                fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () => EntryDetailsDialog.show(context, entry: entry),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                entry.date.timeAgo(),
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          width: 42,
-          height: 42,
-          decoration: BoxDecoration(
-            color: mood.color.withValues(alpha: 0.2),
-            shape: BoxShape.circle,
+          const SizedBox(height: 8),
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: entry.mood.color.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              entry.mood.emoji,
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
-          alignment: Alignment.center,
-          child: Text(
-            mood.emoji,
-            style: const TextStyle(fontSize: 20),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

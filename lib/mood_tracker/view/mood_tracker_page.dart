@@ -73,7 +73,27 @@ class _MoodTrackerPageState extends State<MoodTrackerPage> {
                         if (entries.isEmpty) {
                           return const EmptyTimelineCard();
                         }
-                        return MoodTimeline(entries: entries);
+                        return Column(
+                          children: [
+                            MoodTimeline(entries: entries),
+                            const SizedBox(height: 16),
+                            TextButton.icon(
+                              onPressed: () {
+                                unawaited(
+                                  context.read<MoodTrackerCubit>().clearAll(),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.delete_sweep,
+                                color: Colors.red,
+                              ),
+                              label: const Text(
+                                'Clear All',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        );
                       },
                       orElse: () => const CircularProgressIndicator(),
                     );

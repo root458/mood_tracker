@@ -16,7 +16,7 @@ class HappyFacePainter extends CustomPainter {
     final strokePaint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.08
+      ..strokeWidth = size.width * 0.05
       ..strokeCap = StrokeCap.round;
 
     final width = size.width;

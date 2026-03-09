@@ -48,18 +48,31 @@ class SadFacePainter extends CustomPainter {
       );
 
     // Eyebrows (Slanted)
-    final browYOffset = height * 0.25;
-    final browLength = width * 0.2;
+    final browYOffset = height * 0.3;
+    final browLength = width * 0.15;
+    final browSlant = height * 0.05;
 
     canvas
       ..drawLine(
-        Offset(width / 2 - eyeXOffset - browLength / 2, browYOffset + 5),
-        Offset(width / 2 - eyeXOffset + browLength / 2, browYOffset - 5),
+        Offset(
+          width / 2 - eyeXOffset - browLength / 2,
+          browYOffset + browSlant,
+        ),
+        Offset(
+          width / 2 - eyeXOffset + browLength / 2,
+          browYOffset - browSlant,
+        ),
         strokePaint,
       )
       ..drawLine(
-        Offset(width / 2 + eyeXOffset - browLength / 2, browYOffset - 5),
-        Offset(width / 2 + eyeXOffset + browLength / 2, browYOffset + 5),
+        Offset(
+          width / 2 + eyeXOffset - browLength / 2,
+          browYOffset - browSlant,
+        ),
+        Offset(
+          width / 2 + eyeXOffset + browLength / 2,
+          browYOffset + browSlant,
+        ),
         strokePaint,
       );
 

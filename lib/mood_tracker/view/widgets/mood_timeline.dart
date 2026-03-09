@@ -10,26 +10,29 @@ class MoodTimeline extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final width = constraints.maxWidth * .8;
+        final width = constraints.maxWidth * 0.8;
         final itemWidth = width / 7;
 
-        return SizedBox(
-          height: 120,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minWidth: width),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: entries.map((entry) {
-                  return SizedBox(
-                    width: itemWidth,
-                    child: TimelineItem(
-                      date: entry.date,
-                      mood: entry.mood,
-                    ),
-                  );
-                }).toList(),
+        return Center(
+          child: SizedBox(
+            height: 120,
+            width: width,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: width),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: entries.map((entry) {
+                    return SizedBox(
+                      width: itemWidth,
+                      child: TimelineItem(
+                        date: entry.date,
+                        mood: entry.mood,
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           ),

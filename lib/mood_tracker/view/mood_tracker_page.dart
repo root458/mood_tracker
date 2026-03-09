@@ -73,7 +73,7 @@ class _MoodTrackerPageState extends State<MoodTrackerPage> {
                         if (entries.isEmpty) {
                           return const EmptyTimelineCard();
                         }
-                        return _MoodTimeline(entries: entries);
+                        return MoodTimeline(entries: entries);
                       },
                       orElse: () => const CircularProgressIndicator(),
                     );
@@ -84,70 +84,6 @@ class _MoodTrackerPageState extends State<MoodTrackerPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _MoodTimeline extends StatelessWidget {
-  const _MoodTimeline({required this.entries});
-
-  final List<MoodEntry> entries;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 120,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: entries.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 16),
-        itemBuilder: (context, index) {
-          final entry = entries[index];
-          return _TimelineItem(
-            date: entry.date,
-            mood: entry.mood,
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _TimelineItem extends StatelessWidget {
-  const _TimelineItem({
-    required this.date,
-    required this.mood,
-  });
-
-  final DateTime date;
-  final Mood mood;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          '${date.day}/${date.month}',
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.black54,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: mood.color.withValues(alpha: 0.2),
-            shape: BoxShape.circle,
-          ),
-          child: Text(
-            mood.emoji,
-            style: const TextStyle(fontSize: 32),
-          ),
-        ),
-      ],
     );
   }
 }
